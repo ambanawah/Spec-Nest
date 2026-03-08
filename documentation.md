@@ -125,3 +125,5 @@ JWT-based authentication with refresh tokens.
 👉 This template gives you a **professional, database-focused structure** for documenting your e-commerce project.  
 
 Would you like me to also create a **ready-to-use ER diagram schema** (with tables and relationships) so you can plug it directly into your project?
+ HEAD
+d570e89 (Resolve merge conflict and finalize documentation)
