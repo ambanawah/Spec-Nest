@@ -8,7 +8,7 @@
 
 
 
-### Database Design & SQL Schema
+### 3 Database Design & SQL Schema
 ### 3.1 Introduction to Database Design
 
 Following the system requirements and architecture described in the previous sections, the database layer is designed to support the core functionality of the GlobalMart Ads E-commerce Website. The database is responsible for storing, organizing, and managing all application data including users, products, orders, and transactions.
