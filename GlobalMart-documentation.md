@@ -98,7 +98,7 @@ Administrator responsibilities include:
 
 
 
-### 2.### 2. Database-Centric System Architecture
+### 2. Database-Centric System Architecture
 
 ### Overview
 This document focuses on the database-centric architecture of GlobalMart, showing how users and applications interact with the database system we are designing in class. The architecture emphasizes the database as the core component, with all other elements serving as interfaces to the data.
@@ -570,6 +570,9 @@ graph TB
 | **SQL Development** | DBeaver | Latest | Universal SQL client | Write/test queries, view execution plans |
 | **Database Utilities** | PostgreSQL pg_dump | 15.x | Backup and restore | Export/import schema and data |
 | **Migration Tool** | PostgreSQL Migrations | - | Schema version control | Track and apply schema changes |
+
+
+
 ### 3. Database Design & SQL Schema
 ### 3.1 Introduction to Database Design
 
