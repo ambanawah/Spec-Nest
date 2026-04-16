@@ -1,32 +1,13 @@
+import Header from './components/Header';
+
 export default function HomePage() {
   return (
-    <main className="pt-20">
-      <nav className="fixed top-0 w-full flex justify-between items-center px-8 h-20 bg-[#111125]/70 backdrop-blur-xl z-50 shadow-2xl shadow-black/20 font-manrope text-sm tracking-tight">
-        <div className="flex items-center gap-12">
-          <span className="text-2xl font-bold tracking-tighter text-[#e2e0fc]">SpecNest</span>
-          <div className="hidden md:flex gap-8">
-            <a className="text-[#e2e0fc]/70 hover:text-[#e2e0fc] transition-all duration-300" href="#">Laptops</a>
-            <a className="text-[#e2e0fc]/70 hover:text-[#e2e0fc] transition-all duration-300" href="#">Desktops</a>
-            <a className="text-[#e2e0fc]/70 hover:text-[#e2e0fc] transition-all duration-300" href="#">Components</a>
-            <a className="text-[#e2e0fc]/70 hover:text-[#e2e0fc] transition-all duration-300" href="#">Deals</a>
-          </div>
-        </div>
-        <div className="flex items-center gap-6">
-          <button className="transition-all duration-300 cubic-bezier(0.4,0,0.2,1) hover:bg-[#28283d] p-2 rounded-lg scale-95 active:scale-90">
-            <span className="material-symbols-outlined text-[#b3c5ff]">search</span>
-          </button>
-          <button className="transition-all duration-300 cubic-bezier(0.4,0,0.2,1) hover:bg-[#28283d] p-2 rounded-lg scale-95 active:scale-90 relative">
-            <span className="material-symbols-outlined text-[#b3c5ff]">shopping_cart</span>
-            <span className="absolute top-1 right-1 w-2 h-2 bg-secondary rounded-full" />
-          </button>
-          <button className="transition-all duration-300 cubic-bezier(0.4,0,0.2,1) hover:bg-[#28283d] p-2 rounded-lg scale-95 active:scale-90">
-            <span className="material-symbols-outlined text-[#b3c5ff]">person</span>
-          </button>
-        </div>
-      </nav>
+    <>
+      <Header activePage="home" />
 
-      <section className="relative h-[921px] overflow-hidden flex items-center px-8 md:px-20 bg-surface-container-lowest">
-        <div className="absolute inset-0 z-0">
+      <main className="pt-24">
+        <section className="relative h-[921px] overflow-hidden flex items-center px-8 md:px-20 bg-surface-container-lowest">
+          <div className="absolute inset-0 z-0">
           <div className="absolute inset-0 bg-gradient-to-r from-background via-background/40 to-transparent z-10" />
           <img
             className="w-full h-full object-cover object-center opacity-60"
@@ -292,5 +273,6 @@ export default function HomePage() {
         </div>
       </footer>
     </main>
+    </>
   );
 }
