@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import Header from './components/Header';
 
 export default function HomePage() {
@@ -28,19 +29,19 @@ export default function HomePage() {
             Precision-engineered hardware curated for those who build the future. Experience zero latency and peak thermal performance.
           </p>
           <div className="flex flex-wrap gap-4">
-            <button className="bg-gradient-to-br from-primary-container to-secondary-container text-white px-8 py-4 rounded-md font-headline font-bold text-sm tracking-tight transition-transform duration-200 active:scale-95 shadow-lg shadow-primary-container/20">
+            <Link href="/build" className="bg-gradient-to-br from-primary-container to-secondary-container text-white px-8 py-4 rounded-md font-headline font-bold text-sm tracking-tight transition-transform duration-200 active:scale-95 shadow-lg shadow-primary-container/20">
               CONFIGURE YOUR RIG
-            </button>
-            <button className="bg-transparent border border-outline-variant/30 text-on-surface px-8 py-4 rounded-md font-headline font-bold text-sm tracking-tight hover:bg-surface-container-high transition-colors active:scale-95">
+            </Link>
+            <Link href="/catalog" className="bg-transparent border border-outline-variant/30 text-on-surface px-8 py-4 rounded-md font-headline font-bold text-sm tracking-tight hover:bg-surface-container-high transition-colors active:scale-95">
               EXPLORE SPECS
-            </button>
+            </Link>
           </div>
         </div>
       </section>
 
       <section className="py-24 px-8 md:px-20 bg-surface-container-low">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-6 h-auto md:h-[600px]">
-          <div className="md:col-span-8 group relative overflow-hidden rounded-xl bg-surface-container-high cursor-pointer transition-all duration-500 hover:shadow-2xl hover:shadow-primary/10">
+          <Link href="/catalog" className="md:col-span-8 group relative overflow-hidden rounded-xl bg-surface-container-high cursor-pointer transition-all duration-500 hover:shadow-2xl hover:shadow-primary/10">
             <img
               className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 opacity-50"
               alt="ultra thin modern workspace with a high-end metal laptop and blue ambient lighting on the edges"
@@ -51,8 +52,8 @@ export default function HomePage() {
               <h3 className="font-headline text-3xl font-black text-[#e2e0fc] mb-2 tracking-tighter">LAPTOPS</h3>
               <p className="font-label text-xs tracking-widest text-primary uppercase">Mobile Powerhouses</p>
             </div>
-          </div>
-          <div className="md:col-span-4 group relative overflow-hidden rounded-xl bg-surface-container-high cursor-pointer transition-all duration-500 hover:shadow-2xl hover:shadow-secondary/10">
+          </Link>
+          <Link href="/catalog/desktops" className="md:col-span-4 group relative overflow-hidden rounded-xl bg-surface-container-high cursor-pointer transition-all duration-500 hover:shadow-2xl hover:shadow-secondary/10">
             <img
               className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 opacity-50"
               alt="inside of a custom water cooled pc with glowing purple liquid and vibrant rgb components"
@@ -63,8 +64,8 @@ export default function HomePage() {
               <h3 className="font-headline text-3xl font-black text-[#e2e0fc] mb-2 tracking-tighter">CUSTOM DESKTOPS</h3>
               <p className="font-label text-xs tracking-widest text-secondary uppercase">Precision Built</p>
             </div>
-          </div>
-          <div className="md:col-span-12 group relative overflow-hidden rounded-xl bg-surface-container-high cursor-pointer transition-all duration-500 hover:shadow-2xl hover:shadow-white/5">
+          </Link>
+          <Link href="/component-library" className="md:col-span-12 group relative overflow-hidden rounded-xl bg-surface-container-high cursor-pointer transition-all duration-500 hover:shadow-2xl hover:shadow-white/5">
             <img
               className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 opacity-40"
               alt="cinematic close up of high end graphics card circuitry with glowing status lights and brushed metal finish"
@@ -78,7 +79,7 @@ export default function HomePage() {
                 Browse Inventory <span className="material-symbols-outlined ml-2 text-sm">arrow_forward</span>
               </span>
             </div>
-          </div>
+          </Link>
         </div>
       </section>
 
@@ -88,9 +89,9 @@ export default function HomePage() {
             <p className="font-label text-secondary text-xs tracking-[0.3em] uppercase mb-4">The Selection</p>
             <h2 className="font-headline text-4xl md:text-5xl font-extrabold tracking-tighter text-on-surface">LATEST ARRIVALS</h2>
           </div>
-          <a className="hidden md:flex items-center gap-2 text-on-surface-variant hover:text-primary transition-colors font-label text-xs tracking-widest uppercase" href="#">
+          <Link className="hidden md:flex items-center gap-2 text-on-surface-variant hover:text-primary transition-colors font-label text-xs tracking-widest uppercase" href="/catalog">
             View All Collections <span className="material-symbols-outlined text-sm">open_in_new</span>
-          </a>
+          </Link>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div className="group bg-surface-container-low rounded-xl overflow-hidden transition-all duration-300 hover:-translate-y-2">

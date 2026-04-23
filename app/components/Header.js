@@ -11,14 +11,14 @@ export default function Header({ activePage = 'home' }) {
         <nav className="hidden md:flex items-center gap-6">
           <Link className={`font-manrope text-sm tracking-tight transition-all duration-300 ${activePage === 'laptops' ? 'text-[#b3c5ff] border-b-2 border-[#b3c5ff] pb-1' : 'text-[#e2e0fc]/70 hover:text-[#e2e0fc]'}`} href="/catalog">Laptops</Link>
           <Link className={`font-manrope text-sm tracking-tight transition-all duration-300 ${activePage === 'desktops' ? 'text-[#b3c5ff] border-b-2 border-[#b3c5ff] pb-1' : 'text-[#e2e0fc]/70 hover:text-[#e2e0fc]'}`} href="/catalog/desktops">Desktops</Link>
-          <a className={`font-manrope text-sm tracking-tight transition-all duration-300 ${activePage === 'components' ? 'text-[#b3c5ff] border-b-2 border-[#b3c5ff] pb-1' : 'text-[#e2e0fc]/70 hover:text-[#e2e0fc]'}`} href="/component-library">Components</a>
-          <a className={`font-manrope text-sm tracking-tight transition-all duration-300 ${activePage === 'deals' ? 'text-[#b3c5ff] border-b-2 border-[#b3c5ff] pb-1' : 'text-[#e2e0fc]/70 hover:text-[#e2e0fc]'}`} href="#">Deals</a>
+          <Link className={`font-manrope text-sm tracking-tight transition-all duration-300 ${activePage === 'components' ? 'text-[#b3c5ff] border-b-2 border-[#b3c5ff] pb-1' : 'text-[#e2e0fc]/70 hover:text-[#e2e0fc]'}`} href="/component-library">Components</Link>
+          <Link className={`font-manrope text-sm tracking-tight transition-all duration-300 ${activePage === 'deals' ? 'text-[#b3c5ff] border-b-2 border-[#b3c5ff] pb-1' : 'text-[#e2e0fc]/70 hover:text-[#e2e0fc]'}`} href="/deals">Deals</Link>
         </nav>
       </div>
       <div className="flex items-center gap-5">
         <Search />
         <Link href="/cart" className="material-symbols-outlined text-[#e2e0fc]/70 hover:text-[#e2e0fc] transition-all scale-95 active:scale-90">shopping_cart</Link>
-        <button className="material-symbols-outlined text-[#e2e0fc]/70 hover:text-[#e2e0fc] transition-all scale-95 active:scale-90">person</button>
+        <Link href="/account" className="material-symbols-outlined text-[#e2e0fc]/70 hover:text-[#e2e0fc] transition-all scale-95 active:scale-90">person</Link>
       </div>
     </header>
   );
