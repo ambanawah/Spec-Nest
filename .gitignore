@@ -7,7 +7,6 @@ yarn-error.log*
 
 # Next.js
 .next/
-.sixth/
 out/
 build/
 dist/
@@ -67,19 +66,7 @@ jspm_packages/
 .cache
 .parcel-cache
 
-# Next.js build output
-.next
-
-# Nuxt.js build / generate output
-.nuxt
-dist
-
-# Gatsby files
-.cache/
-public
-
 # Storybook build outputs
-.out
 .storybook-out
 
 # Temporary folders
@@ -110,5 +97,5 @@ Desktop.ini
 # Local development
 .local
 
-
-AGENTS.md
+# Workshop
+workshop/

@@ -1,4 +1,4 @@
-# SpecNest: Computer Selling Platform
+"""# SpecNest: Computer Selling Platform
 ## System Architecture and Implementation Blueprint
 
 ## 1. Introduction
@@ -154,6 +154,18 @@ The filtering module is the core differentiator for SpecNest. It will be impleme
   2. **Use JSONB:** Store specifications in a `specs_json` column in the `products` table. PostgreSQL's JSONB indexing allows for very fast querying on these dynamic fields. This is a highly scalable approach.
 - **Frontend:** The UI will use `React Hook Form` to manage filter state. Filters will be applied in real-time (debounced) or via an "Apply Filters" button. The URL will update with query parameters (e.g., `?brand=apple&ram=16gb`) to allow users to share filtered views.
 
+**[DEEP DIVE] 7.9 Multi-Currency Support Module:**
+The system will provide real-time currency conversion for all products, allowing customers to browse and purchase in their preferred currency.
+- **Base Currency:** All product prices will be stored in a single base currency (e.g., USD).
+- **Exchange Rate Service:** A dedicated service will be responsible for fetching and storing exchange rates.
+  - **Automated Updates:** A scheduled background job will run daily to fetch the latest exchange rates from a reliable third-party API (e.g., Open Exchange Rates, Fixer). This ensures rates are always up-to-date.
+  - **Database Storage:** Exchange rates will be stored in a dedicated `exchange_rates` table to avoid making external API calls on every transaction.
+- **API Integration:**
+  - API endpoints that return pricing information will be updated to accept a `currency` parameter (e.g., `/api/products?currency=EUR`).
+  - If a currency is provided, the API will calculate and return the price in the requested currency on the fly.
+  - The base price and currency will always be available.
+- **Transaction Handling:** When an order is placed, the transaction amount and the currency used will be recorded to ensure accurate financial records. The `orders` table will be updated to include `currency_code` and `exchange_rate` at the time of purchase.
+
 ---
 
 ## 8. Database-Centric System Architecture
@@ -194,7 +206,7 @@ The database design provides a structured and scalable foundation for the SpecNe
 **[DEEP DIVE] Revised Schema with Key Improvements:**
 
 ### 9.1 Products Table (Enhanced)
-```sql
+'''sql
 -- Add denormalized columns for faster filtering
 ALTER TABLE products ADD COLUMN ram VARCHAR(50);
 ALTER TABLE products ADD COLUMN storage VARCHAR(100);
@@ -203,10 +215,10 @@ ALTER TABLE products ADD COLUMN cpu VARCHAR(255);
 -- Alternatively, a more flexible approach:
 -- ALTER TABLE products ADD COLUMN specs_json JSONB;
 -- CREATE INDEX idx_products_specs ON products USING GIN (specs_json);
-```
+'''
 
 ### 9.2 Inventory Table (Integrated)
-```sql
+'''sql
 -- Instead of a separate inventory table, we can manage stock directly on products.
 -- This simplifies queries. Use a trigger to log changes if historical tracking is needed.
 ALTER TABLE products ADD COLUMN low_stock_threshold INT NOT NULL DEFAULT 5;
@@ -222,7 +234,7 @@ CREATE TABLE inventory_logs (
     changed_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     reason VARCHAR(50) -- 'order_placed', 'admin_update', 'restock'
 );
-```
+'''
 
 ---
 
@@ -230,7 +242,7 @@ CREATE TABLE inventory_logs (
 The system uses strong constraints to enforce correctness at the database level.
 
 **[DEEP DIVE] Trigger for Stock Update & Logging:**
-```sql
+'''sql
 CREATE OR REPLACE FUNCTION log_inventory_changes()
 RETURNS TRIGGER AS $$
 BEGIN
@@ -246,7 +258,7 @@ CREATE TRIGGER trigger_log_inventory_changes
 AFTER UPDATE OF stock_quantity ON products
 FOR EACH ROW
 EXECUTE FUNCTION log_inventory_changes();
-```
+'''
 *This trigger logs every stock change, identifying the user who made the change via a session variable (`app.current_user_id`), providing a complete audit trail.*
 
 ---
@@ -256,7 +268,7 @@ The database is responsible for critical transactional business logic and report
 
 **[DEEP DIVE] Stored Procedure for Order Placement:**
 This encapsulates the critical business logic within the database, ensuring consistency.
-```sql
+'''sql
 CREATE OR REPLACE FUNCTION place_order(
     p_user_id INT,
     p_cart_items JSON,
@@ -301,7 +313,7 @@ BEGIN
     END;
 END;
 $$;
-```
+'''
 
 ---
 
@@ -352,7 +364,7 @@ All database queries will use **parameterized queries** (prepared statements) vi
 
 **[DEEP DIVE] Role-Based Access Control (RBAC) Implementation:**
 Middleware in Express will check the user's role from the JWT on protected routes.
-```javascript
+'''javascript
 const authorize = (...roles) => {
     return (req, res, next) => {
         if (!roles.includes(req.user.role)) {
@@ -364,7 +376,7 @@ const authorize = (...roles) => {
 
 // Usage in route
 router.put('/products/:id', authenticate, authorize('admin'), productController.updateProduct);
-```
+'''
 
 ---
 
@@ -372,7 +384,7 @@ router.put('/products/:id', authenticate, authorize('admin'), productController.
 The following enhancements are planned for future phases:
 - Mobile application version for iOS & Android.
 - AI-powered product recommendations based on user behavior.
-- Multi-currency and multi-language support.
+- Multi-language support.
 - Advanced analytics dashboard for sellers.
 
 ---
@@ -399,3 +411,4 @@ To bring SpecNest to life, development can be broken down into clear phases:
   * Deploy to a cloud platform (e.g., Vercel for frontend, Railway/AWS for backend and database).
 
 By combining a robust, database-centric architecture with a modern, component-based frontend, SpecNest will not only meet its functional requirements but will also be a performant, secure, and maintainable platform ready for future growth.
+""
