@@ -2,44 +2,11 @@
   "version": 2,
   "builds": [
     {
-      "src": "src/api/index.js",
-      "use": "@vercel/node"
-    },
-    {
-      "src": "public/index.html",
-      "use": "@vercel/static"
-    },
-    {
-      "src": "public/css/**",
-      "use": "@vercel/static"
-    },
-    {
-      "src": "public/js/**",
-      "use": "@vercel/static"
+      "src": "next.config.mjs",
+      "use": "@vercel/next"
     }
   ],
-  "routes": [
-    {
-      "src": "/api/(.*)",
-      "dest": "/src/api/index.js"
-    },
-    {
-      "src": "/css/(.*)",
-      "dest": "/public/css/$1"
-    },
-    {
-      "src": "/js/(.*)",
-      "dest": "/public/js/$1"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "/public/$1"
-    }
-  ],
-  "crons": [
-    {
-      "path": "/api/update-rates",
-      "schedule": "0 0 * * *"
-    }
-  ]
+  "env": {
+    "DATABASE_URL": "@database-url"
+  }
 }

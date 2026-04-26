@@ -1,25 +1,99 @@
-# SpecNest: Computer Selling Platform
+# SpecNest
 
-SpecNest is a web-based platform for selling computers and related devices, allowing customers to purchase products online while administrators manage listings, categories, inventory, and orders efficiently.
+SpecNest is a modern, full-stack e-commerce platform for selling computer hardware and components. It provides a seamless shopping experience for customers and a robust backend for managing products, orders, and users.
 
+## Features
 
-## 1. Introduction
+*   **Product Catalog:** Browse a wide range of computer components with detailed specifications.
+*   **Search and Filtering:** Easily find products with powerful search and filtering options.
+*   **User Accounts:** Create accounts, manage personal information, and track order history.
+*   **Shopping Cart:** Add products to a cart and proceed to a smooth checkout process.
+*   **Secure Authentication:** User authentication and password hashing using bcrypt.
 
-### 1.1 Background
-With the rapid growth of the internet and digital technologies, online shopping has become an important part of modern commerce. E-commerce platforms allow customers to browse products, compare prices, and make purchases without physically visiting a store.
+## Tech Stack
 
-Businesses also benefit from e-commerce systems by expanding their market reach and improving customer engagement.
+*   **Frontend:** [Next.js](https://nextjs.org/), [React](https://reactjs.org/), [Tailwind CSS](https://tailwindcss.com/)
+*   **Backend:** [Node.js](https://nodejs.org/), [Express.js](https://expressjs.com/)
+*   **Database:** [PostgreSQL](https://www.postgresql.org/)
 
-SpecNest is designed as a web-based platform for selling computers and related devices, allowing customers to purchase products online while administrators manage listings, categories, inventory, and orders efficiently.
+## Getting Started
 
-### 1.2 Purpose of the System
-The purpose of SpecNest is to build a reliable and user-friendly computer selling platform where users can discover products, compare configurations, add items to a cart, and complete purchases online.
+Follow these instructions to get a copy of the project up and running on your local machine for development and testing purposes.
 
-The system also provides backend tools for administrators to manage products, categories, inventory, and customer orders with clarity and control.
+### Prerequisites
 
-### 1.3 Problem Statement
-Traditional computer shopping often forces customers to visit physical stores, compare limited product selections, and rely on in-store staff for configuration guidance. This process is slow and inconvenient, especially for customers who need to compare detailed hardware specifications.
+You need to have the following software installed on your machine:
 
-Many smaller computer retailers also struggle to present their full product catalogs online with the performance, searchability, and configurability customers expect.
+*   [Node.js](https://nodejs.org/) (v18 or later)
+*   [npm](https://www.npmjs.com/)
+*   [PostgreSQL](https://www.postgresql.org/download/)
 
-SpecNest addresses these issues by delivering an online platform that makes computer shopping intuitive, transparent, and efficient for buyers while giving sellers a scalable, data-driven storefront.
+### Installation
+
+1.  Clone the repository:
+    ```bash
+    git clone https://github.com/your-username/specnest.git
+    cd specnest
+    ```
+
+2.  Install the dependencies for both the frontend and backend:
+    ```bash
+    npm install
+    ```
+
+3.  Set up your environment variables. Create a `.env` file in the root of the project and add the following:
+    ```
+    DB_USER=your_postgres_user
+    DB_HOST=localhost
+    DB_DATABASE=specnest
+    DB_PASSWORD=your_postgres_password
+    DB_PORT=5432
+    ```
+
+### Database Setup
+
+1.  Make sure your PostgreSQL server is running.
+2.  Create a new database named `specnest`.
+3.  Run the database setup script to create the necessary tables:
+    ```bash
+    npm run db:setup
+    ```
+
+### Running the Application
+
+You can run the frontend and backend servers concurrently in separate terminals.
+
+1.  **Start the backend server:**
+    ```bash
+    npm run backend
+    ```
+    The backend server will start on `http://localhost:3001`.
+
+2.  **Start the frontend development server:**
+    ```bash
+    npm run dev
+    ```
+    The frontend will be available at `http://localhost:3000`.
+
+## API Endpoints
+
+The backend API is served from `/api`. Here are some of the main endpoints:
+
+*   `GET /api/products`: Get a list of all products.
+*   `GET /api/products/:id`: Get a single product by ID.
+*   `POST /api/register`: Register a new user.
+*   `POST /api/login`: Log in a user.
+
+For a full list of API endpoints and their specifications, please refer to the backend source code.
+
+## Deployment
+
+SpecNest is deployed and live on the following platforms:
+
+*   **Frontend (Next.js):** Deployed on [Vercel](https://vercel.com/).
+    *   **Live Demo:** [https://specnest.vercel.app](https://specnest.vercel.app)
+*   **Backend (Express.js):** Deployed on [Railway](https://railway.app/).
+    *   **API URL:** [https://specnest-api.up.railway.app](https://specnest-api.up.railway.app)
+*   **Database (PostgreSQL):** Hosted on [Neon](https://neon.tech/).
+
+This setup provides a scalable and reliable architecture for the SpecNest platform.

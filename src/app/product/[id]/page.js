@@ -31,55 +31,61 @@ const ProductDetailsPage = () => {
         }
     }, [id]);
 
-    if (loading) {
-        return <div>Loading...</div>; 
-    }
+    const renderContent = () => {
+        if (loading) {
+            return <div className="text-center py-10">Loading...</div>;
+        }
 
-    if (error) {
-        return <div>Error: {error}</div>;
-    }
+        if (error) {
+            return <div className="text-center py-10 text-red-500">Error: {error}</div>;
+        }
 
-    if (!product) {
-        return <div>Product not found</div>;
-    }
+        if (!product) {
+            return <div className="text-center py-10">Product not found</div>;
+        }
 
-    const { name, description, price, currency_code, stock_quantity, image_url, specs } = product;
+        const { name, description, price, currency_code, stock_quantity, image_url, specs } = product;
+
+        return (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12">
+                <div>
+                    <img src={image_url || 'https://via.placeholder.com/600'} alt={name} className="w-full h-auto object-cover rounded-lg shadow-lg" />
+                </div>
+                <div>
+                    <h1 className="text-3xl sm:text-4xl font-bold mb-4">{name}</h1>
+                    <p className="text-gray-400 mb-6">{description}</p>
+                    <div className="mb-6">
+                        <p className="text-3xl sm:text-4xl font-semibold text-primary">{`${price} ${currency_code}`}</p>
+                        <p className={`text-base sm:text-lg font-medium ${stock_quantity > 0 ? 'text-green-400' : 'text-red-400'}`}>
+                            {stock_quantity > 0 ? 'In Stock' : 'Out of Stock'} ({stock_quantity} available)
+                        </p>
+                    </div>
+                    <div className="bg-surface-container-high p-6 rounded-lg mb-8">
+                        <h2 className="text-2xl font-bold mb-4">Specifications</h2>
+                        <ul className="space-y-3">
+                            {specs && Object.entries(specs).map(([key, value]) => (
+                                <li key={key} className="flex justify-between items-center text-sm">
+                                    <span className="font-semibold text-gray-300 capitalize">{key.replace(/_/g, ' ')}</span>
+                                    <span className="text-gray-100 font-medium">{value}</span>
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+                     <div className="mt-8">
+                        <button className="w-full md:w-auto bg-primary-container text-white px-8 py-3 rounded-lg font-semibold hover:brightness-110 transition-all">
+                            Add to Cart
+                        </button>
+                    </div>
+                </div>
+            </div>
+        );
+    };
 
     return (
         <>
             <Header />
-            <main className="pt-24 pb-32 min-h-screen px-4 md:px-8 max-w-[1200px] mx-auto">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    <div>
-                        <img src={image_url || 'https://via.placeholder.com/600'} alt={name} className="w-full h-auto object-cover rounded-lg shadow-lg" />
-                    </div>
-                    <div>
-                        <h1 className="text-4xl font-bold mb-4">{name}</h1>
-                        <p className="text-gray-600 mb-6">{description}</p>
-                        <div className="mb-6">
-                            <p className="text-3xl font-semibold text-blue-600">{`${price} ${currency_code}`}</p>
-                            <p className={`text-lg font-medium ${stock_quantity > 0 ? 'text-green-600' : 'text-red-600'}`}>
-                                {stock_quantity > 0 ? 'In Stock' : 'Out of Stock'} ({stock_quantity} available)
-                            </p>
-                        </div>
-                        <div className="bg-gray-100 p-6 rounded-lg">
-                            <h2 className="text-2xl font-bold mb-4">Specifications</h2>
-                            <ul className="space-y-2">
-                                {specs && Object.entries(specs).map(([key, value]) => (
-                                    <li key={key} className="flex justify-between">
-                                        <span className="font-semibold text-gray-700">{key.replace(/_/g, ' ').toUpperCase()}</span>
-                                        <span className="text-gray-900">{value}</span>
-                                    </li>
-                                ))}
-                            </ul>
-                        </div>
-                         <div className="mt-8">
-                            <button className="bg-blue-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors">
-                                Add to Cart
-                            </button>
-                        </div>
-                    </div>
-                </div>
+            <main className="pt-24 pb-32 min-h-screen px-4 sm:px-6 md:px-8 max-w-[1200px] mx-auto">
+                {renderContent()}
             </main>
             <Footer />
         </>
