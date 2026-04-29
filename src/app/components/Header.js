@@ -10,9 +10,9 @@ export default function Header() {
   const pathname = usePathname();
 
   const navLinks = [
-    { href: '/catalog', label: 'Laptops', page: 'laptops' },
+    { href: '/catalog/laptops', label: 'Laptops', page: 'laptops' },
     { href: '/catalog/desktops', label: 'Desktops', page: 'desktops' },
-    { href: '/component-library', label: 'Components', page: 'components' },
+    { href: '/rapid-parts', label: 'Components', page: 'rapid-parts' },
     { href: '/deals', label: 'Deals', page: 'deals' },
   ];
 

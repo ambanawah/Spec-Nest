@@ -6,7 +6,7 @@ import Header from '../../components/Header';
 import ProductCard from '../../components/ProductCard';
 import { useCart } from '../../cart/CartContext';
 
-export default function DesktopsCatalogPage() {
+export default function LaptopsCatalogPage() {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const { addToCart } = useCart();
@@ -14,11 +14,11 @@ export default function DesktopsCatalogPage() {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await fetch('/api/products?category=Desktop');
+        const response = await fetch('/api/products?category=Laptop');
         const data = await response.json();
         setProducts(data.products);
       } catch (error) {
-        console.error("Error fetching desktops:", error);
+        console.error("Error fetching laptops:", error);
       }
       setLoading(false);
     };
@@ -28,7 +28,7 @@ export default function DesktopsCatalogPage() {
 
   return (
     <>
-      <Header activePage="desktops" />
+      <Header activePage="laptops" />
       <main className="pt-24 pb-32 min-h-screen px-4 md:px-8 max-w-[1600px] mx-auto flex flex-col md:flex-row gap-8">
         <aside className="w-full md:w-72 flex-shrink-0">
           <div className="sticky top-28 space-y-8">
@@ -63,11 +63,11 @@ export default function DesktopsCatalogPage() {
               </label>
               <label className="flex items-center gap-3 cursor-pointer group">
                 <div className="w-4 h-4 rounded-sm border border-outline-variant bg-surface-container-lowest flex items-center justify-center group-hover:border-primary transition-colors"></div>
-                <span className="text-sm font-body text-on-surface group-hover:text-primary">Corsair</span>
+                <span className="text-sm font-body text-on-surface group-hover:text-primary">Razer</span>
               </label>
               <label className="flex items-center gap-3 cursor-pointer group">
                 <div className="w-4 h-4 rounded-sm border border-outline-variant bg-surface-container-lowest flex items-center justify-center group-hover:border-primary transition-colors"></div>
-                <span className="text-sm font-body text-on-surface group-hover:text-primary">NZXT</span>
+                <span className="text-sm font-body text-on-surface group-hover:text-primary">ASUS</span>
               </label>
             </div>
           </div>
@@ -85,10 +85,10 @@ export default function DesktopsCatalogPage() {
           <div className="space-y-3">
             <label className="font-label text-xs uppercase tracking-widest text-on-surface-variant">Capacity</label>
             <div className="flex flex-wrap gap-2">
-              <button className="px-3 py-1 bg-surface-container-high border border-outline-variant/20 rounded-sm font-label text-[10px] text-on-surface-variant hover:border-primary transition-all">32GB</button>
-              <button className="px-3 py-1 bg-surface-container-highest border border-primary/40 rounded-sm font-label text-[10px] text-primary tracking-widest">64GB+</button>
-              <button className="px-3 py-1 bg-surface-container-high border border-outline-variant/20 rounded-sm font-label text-[10px] text-on-surface-variant hover:border-primary transition-all">2TB NVMe</button>
-              <button className="px-3 py-1 bg-surface-container-high border border-outline-variant/20 rounded-sm font-label text-[10px] text-on-surface-variant hover:border-primary transition-all">4TB+ SSD</button>
+              <button className="px-3 py-1 bg-surface-container-high border border-outline-variant/20 rounded-sm font-label text-[10px] text-on-surface-variant hover:border-primary transition-all">16GB</button>
+              <button className="px-3 py-1 bg-surface-container-highest border border-primary/40 rounded-sm font-label text-[10px] text-primary tracking-widest">32GB+</button>
+              <button className="px-3 py-1 bg-surface-container-high border border-outline-variant/20 rounded-sm font-label text-[10px] text-on-surface-variant hover:border-primary transition-all">1TB NVMe</button>
+              <button className="px-3 py-1 bg-surface-container-high border border-outline-variant/20 rounded-sm font-label text-[10px] text-on-surface-variant hover:border-primary transition-all">2TB+ SSD</button>
             </div>
           </div>
         </div>
@@ -97,8 +97,8 @@ export default function DesktopsCatalogPage() {
         <section className="flex-1 space-y-8">
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div>
-              <h1 className="font-headline text-3xl font-extrabold tracking-tighter text-on-surface">Precision Desktops</h1>
-              <p className="text-on-surface-variant text-sm font-body">Found {products.length} high-performance machines matching your profile</p>
+              <h1 className="font-headline text-3xl font-extrabold tracking-tighter text-on-surface">Featherlight Laptops</h1>
+              <p className="text-on-surface-variant text-sm font-body">Found {products.length} ultra-light machines matching your profile</p>
             </div>
             <div className="flex items-center gap-4">
               <span className="font-label text-[10px] uppercase tracking-widest text-on-surface-variant">Sort By:</span>
