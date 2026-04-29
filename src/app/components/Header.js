@@ -4,10 +4,12 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import Search from './Search';
+import { useCurrency } from '../context/CurrencyContext';
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const pathname = usePathname();
+  const { currency, setCurrency, currencies } = useCurrency();
 
   const navLinks = [
     { href: '/catalog/laptops', label: 'Laptops', page: 'laptops' },
@@ -16,17 +18,8 @@ export default function Header() {
     { href: '/deals', label: 'Deals', page: 'deals' },
   ];
 
-  const getActivePage = () => {
-    for (const link of navLinks) {
-        if (pathname.startsWith(link.href)) {
-            return link.page;
-        }
-    }
-    if (pathname === '/') return 'home';
-    return '';
-  }
-
-  const activePage = getActivePage();
+  const activePage = navLinks.find(l => pathname.startsWith(l.href))?.page
+    ?? (pathname === '/' ? 'home' : '');
 
   return (
     <header className="fixed top-0 w-full bg-surface-container-lowest/80 backdrop-blur-xl z-50 shadow-lg shadow-black/20">
@@ -48,6 +41,16 @@ export default function Header() {
           <div className="hidden sm:block">
             <Search />
           </div>
+          <select
+            value={currency}
+            onChange={e => setCurrency(e.target.value)}
+            className="bg-surface-container-low border border-outline-variant/30 text-on-surface-variant font-label text-[10px] uppercase tracking-widest focus:ring-1 focus:ring-primary rounded-sm px-2 py-1 cursor-pointer">
+            {currencies.map(c => (
+              <option key={c.currency_code} value={c.currency_code}>
+                {c.currency_code} — {c.currency_name}
+              </option>
+            ))}
+          </select>
           <Link href="/cart" className="material-symbols-outlined text-on-surface-variant hover:text-on-surface transition-all scale-95 active:scale-90">shopping_cart</Link>
           <Link href="/account" className="material-symbols-outlined text-on-surface-variant hover:text-on-surface transition-all scale-95 active:scale-90">person</Link>
           <button onClick={() => setIsMenuOpen(!isMenuOpen)} className="md:hidden material-symbols-outlined text-on-surface-variant hover:text-on-surface transition-all">
@@ -56,11 +59,10 @@ export default function Header() {
         </div>
       </div>
 
-      {/* Mobile Menu */}
       {isMenuOpen && (
         <div className="md:hidden bg-surface-container-low absolute w-full shadow-inner">
           <div className="px-4 py-2 sm:hidden">
-              <Search />
+            <Search />
           </div>
           <nav className="flex flex-col items-center py-4">
             {navLinks.map(link => (

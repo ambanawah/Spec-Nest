@@ -26,7 +26,7 @@ export default function AccountPage() {
     const endpoint = isLogin ? '/api/auth/login' : '/api/auth/register';
     const body = isLogin 
       ? JSON.stringify({ email: formData.email, password: formData.password })
-      : JSON.stringify({ name: formData.name, email: formData.email, password: formData.password, role: 'customer' });
+      : JSON.stringify({ username: formData.name, email: formData.email, password: formData.password, role: 'customer' });
 
     try {
       const response = await fetch(`${API_URL}${endpoint}`, {
@@ -42,7 +42,7 @@ export default function AccountPage() {
       }
 
       if (isLogin) {
-          const userData = { id: data.userId, name: data.name, role: data.role };
+          const userData = { id: data.userId, name: data.username, role: data.role };
           login(userData, data.token);
       } else {
         // After registration, prompt user to log in
