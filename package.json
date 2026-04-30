@@ -3,13 +3,14 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "node api/index.js",
-    "lint": "next lint",
-    "backend": "nodemon api/index.js",
-    "start:backend": "node api/index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "next dev src",
+    "build": "next build src",
+    "start": "next start src",
+    "lint": "next lint src",
+    "backend": "nodemon src/api/index.js",
+    "start:backend": "node src/api/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "db:setup": "node db/setup-db.js"
   },
   "keywords": [],
   "author": "",
@@ -18,10 +19,11 @@
   "dependencies": {
     "bcryptjs": "^3.0.3",
     "cors": "^2.8.6",
-    "dotenv": "^17.3.1",
+    "dotenv": "^17.4.2",
     "express": "^5.2.1",
     "jsonwebtoken": "^9.0.3",
     "next": "^15.2.0",
+    "node-cron": "file:../node-cron-4.2.1.tgz",
     "pg": "^8.20.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
