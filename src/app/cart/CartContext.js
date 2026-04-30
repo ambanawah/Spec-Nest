@@ -1,7 +1,7 @@
 "use client";
 
 import { createContext, useContext, useState, useEffect } from 'react';
-import { useAuth } from './AuthContext'; // Import useAuth
+import { useAuth } from '../AuthContext';
 
 const CartContext = createContext();
 

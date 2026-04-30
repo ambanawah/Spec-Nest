@@ -301,12 +301,12 @@ BEGIN
     SELECT status INTO v_current_status FROM orders WHERE id = p_order_id;
     IF NOT FOUND THEN RAISE EXCEPTION 'Order % not found', p_order_id; END IF;
 
-    IF NOT CASE v_current_status
+    IF NOT (CASE v_current_status
         WHEN 'pending'    THEN p_new_status IN ('processing', 'cancelled')
         WHEN 'processing' THEN p_new_status IN ('shipped', 'cancelled')
         WHEN 'shipped'    THEN p_new_status = 'delivered'
         ELSE FALSE
-    END CASE THEN
+    END) THEN
         RAISE EXCEPTION 'Invalid status transition: % -> %', v_current_status, p_new_status;
     END IF;
 
