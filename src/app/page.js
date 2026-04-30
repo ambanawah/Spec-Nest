@@ -7,8 +7,8 @@ const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
 
 async function getLatestProducts() {
   try {
-    const res = await fetch(`${API_URL}/api/products?limit=3&sortBy=created_at&sortOrder=desc`, {
-      next: { revalidate: 60 } // Revalidate every 60 seconds
+    const res = await fetch(`${API_URL}/api/products?limit=3&sortBy=price&sortOrder=desc`, {
+      next: { revalidate: 60 },
     });
     if (!res.ok) {
       throw new Error('Failed to fetch latest products');
@@ -39,7 +39,7 @@ function ProductCard({ product }) {
             <div className="p-6 sm:p-8">
                 <div className="flex justify-between items-start mb-4">
                     <h4 className="font-headline text-xl font-bold text-on-surface leading-tight">{product.name}</h4>
-                    <span className="text-primary font-label font-bold">${product.converted_price.toFixed(2)}</span>
+                    <span className="text-primary font-label font-bold">${parseFloat(product.converted_price).toFixed(2)}</span>
                 </div>
                 <div className="flex flex-wrap gap-2 mb-6 sm:mb-8">
                     {specKeys.map(key => (

@@ -6,7 +6,7 @@ export default function ProductCard({ product }) {
     const specKeys = Object.keys(specs).slice(0, 3);
 
     // Safely access price, providing a default of 0
-    const price = product.converted_price || 0;
+    const price = parseFloat(product.converted_price) || 0;
 
     return (
         <Link href={`/product/${product.id}`} className="group bg-surface-container-low rounded-xl overflow-hidden transition-all duration-300 hover:-translate-y-2 block shadow-md hover:shadow-xl">

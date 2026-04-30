@@ -5,18 +5,20 @@ import Footer from '../components/Footer';
 import Header from '../components/Header';
 import ProductCard from '../components/ProductCard';
 import { useCart } from '../cart/CartContext';
+import { useCurrency } from '../context/CurrencyContext';
 
 export default function DealsPage() {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const { addToCart } = useCart();
+  const { currency } = useCurrency();
 
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await fetch('/api/products?category=Used');
+        const response = await fetch(`/api/products?currency=${currency}`);
         const data = await response.json();
-        setProducts(data.products);
+        setProducts(Array.isArray(data) ? data : []);
       } catch (error) {
         console.error("Error fetching deals:", error);
       }
@@ -24,7 +26,7 @@ export default function DealsPage() {
     };
 
     fetchProducts();
-  }, []);
+  }, [currency]);
 
   return (
     <>
