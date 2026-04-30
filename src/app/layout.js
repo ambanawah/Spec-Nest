@@ -3,6 +3,7 @@ import './globals.css';
 import { AuthProvider } from './AuthContext';
 import { CartProvider } from './cart/CartContext';
 import { CurrencyProvider } from './context/CurrencyContext';
+import { ComparisonProvider } from './compare/ComparisonContext';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -20,9 +21,11 @@ export default function RootLayout({ children }) {
       <body className={inter.className}>
         <AuthProvider>
           <CurrencyProvider>
-            <CartProvider>
-              {children}
-            </CartProvider>
+            <ComparisonProvider>
+              <CartProvider>
+                {children}
+              </CartProvider>
+            </ComparisonProvider>
           </CurrencyProvider>
         </AuthProvider>
       </body>

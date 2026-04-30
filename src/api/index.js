@@ -106,7 +106,7 @@ app.get('/api/categories', async (req, res) => {
 // ============================================================
 
 app.get('/api/products', async (req, res) => {
-  const { category, sellerId, sortBy = 'price', sortOrder = 'asc', limit = 10, page = 1, currency = 'USD', specs } = req.query;
+  const { category, sellerId, search, sortBy = 'price', sortOrder = 'asc', limit = 10, page = 1, currency = 'USD', specs } = req.query;
   const rate = conversionRates[currency] ?? 1;
   const offset = (parseInt(page) - 1) * parseInt(limit);
 
@@ -127,6 +127,7 @@ app.get('/api/products', async (req, res) => {
 
   if (category) { query += ` AND c.slug = $${i++}`; params.push(category); }
   if (sellerId) { query += ` AND p.seller_id = $${i++}`; params.push(sellerId); }
+  if (search) { query += ` AND p.name ILIKE $${i++}`; params.push(`%${search}%`); }
 
   if (specs) {
     try {

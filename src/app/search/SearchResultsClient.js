@@ -8,6 +8,7 @@ import Footer from '../components/Footer';
 import ProductCard from '../components/ProductCard';
 import ComparisonTray from '../components/ComparisonTray';
 import { useCart } from '../cart/CartContext';
+import { useCurrency } from '../context/CurrencyContext';
 
 export default function SearchResultsClient() {
   const searchParams = useSearchParams();
@@ -15,15 +16,14 @@ export default function SearchResultsClient() {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const { addToCart } = useCart();
+  const { currency } = useCurrency();
 
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        // This is a mocked search. In a real application, you would
-        // fetch the search results from an API based on the query.
-        const response = await fetch(`/api/products?search=${query}`);
+        const response = await fetch(`/api/products?search=${encodeURIComponent(query)}&currency=${currency}`);
         const data = await response.json();
-        setProducts(data.products);
+        setProducts(Array.isArray(data) ? data : []);
       } catch (error) {
         console.error("Error fetching search results:", error);
       }
@@ -33,7 +33,7 @@ export default function SearchResultsClient() {
     if (query) {
       fetchProducts();
     }
-  }, [query]);
+  }, [query, currency]);
 
   return (
     <>
