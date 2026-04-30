@@ -5,10 +5,10 @@ const { Pool } = require('pg');
 const path = require('path');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-require('dotenv').config({ path: path.resolve(__dirname, '../../.env') });
+require('dotenv').config();
 
 const app = express();
-const port = process.env.API_PORT || 3001;
+const port = process.env.PORT || process.env.API_PORT || 3001;
 const saltRounds = 10;
 
 // --- Database Connection ---
@@ -21,8 +21,10 @@ const pool = new Pool({
 app.use(cors({
   origin: [
     'https://specnest.vercel.app',
+    'https://spec-nest.vercel.app',
     /\.vercel\.app$/,
     'http://localhost:3000',
+    'http://localhost:3001',
   ],
   credentials: true,
 }));
@@ -67,6 +69,9 @@ const isAdmin = (req, res, next) =>
 
 const isSeller = (req, res, next) =>
   ['seller', 'admin'].includes(req.user?.role) ? next() : res.status(403).json({ error: 'Seller or Admin role required' });
+
+// --- Health check ---
+app.get('/', (req, res) => res.json({ status: 'ok', service: 'specnest-api' }));
 
 // ============================================================
 // EXCHANGE RATES (Public)

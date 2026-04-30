@@ -2,6 +2,7 @@
   "$schema": "https://railway.app/railway.schema.json",
   "deploy": {
     "startCommand": "node src/api/index.js",
+    "healthcheckPath": "/",
     "restartPolicyType": "ON_FAILURE"
   }
 }
