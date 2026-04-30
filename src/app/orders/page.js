@@ -5,8 +5,6 @@ import Header from '../components/Header';
 import Footer from '../components/Footer';
 import { useAuth } from '../AuthContext'; // Assuming you create an AuthContext
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
-
 export default function OrdersPage() {
     const { user, token } = useAuth(); // You would get user and token from your AuthContext
     const [orders, setOrders] = useState([]);
@@ -22,7 +20,7 @@ export default function OrdersPage() {
 
         const fetchOrders = async () => {
             try {
-                const res = await fetch(`${API_URL}/api/orders`, {
+                const res = await fetch(`/api/orders`, {
                     headers: { 'Authorization': `Bearer ${token}` },
                 });
                 if (!res.ok) {

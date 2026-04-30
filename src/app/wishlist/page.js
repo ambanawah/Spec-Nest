@@ -6,8 +6,6 @@ import Footer from '../components/Footer';
 import { useAuth } from '../AuthContext';
 import ProductCard from '../components/ProductCard';
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
-
 export default function WishlistPage() {
     const { user, token } = useAuth();
     const [wishlistItems, setWishlistItems] = useState([]);
@@ -23,7 +21,7 @@ export default function WishlistPage() {
 
         const fetchWishlist = async () => {
             try {
-                const res = await fetch(`${API_URL}/api/wishlist`, {
+                const res = await fetch(`/api/wishlist`, {
                     headers: { 'Authorization': `Bearer ${token}` },
                 });
                 if (!res.ok) {

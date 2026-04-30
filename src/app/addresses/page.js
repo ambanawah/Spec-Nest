@@ -5,8 +5,6 @@ import Header from '../components/Header';
 import Footer from '../components/Footer';
 import { useAuth } from '../AuthContext';
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
-
 export default function AddressesPage() {
     const { user, token } = useAuth();
     const [addresses, setAddresses] = useState([]);
@@ -22,7 +20,7 @@ export default function AddressesPage() {
 
         const fetchAddresses = async () => {
             try {
-                const res = await fetch(`${API_URL}/api/addresses`, {
+                const res = await fetch(`/api/addresses`, {
                     headers: { 'Authorization': `Bearer ${token}` },
                 });
                 if (!res.ok) {

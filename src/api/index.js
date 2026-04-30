@@ -8,7 +8,7 @@ const jwt = require('jsonwebtoken');
 require('dotenv').config({ path: path.resolve(__dirname, '../../.env') });
 
 const app = express();
-const port = process.env.PORT || 3001;
+const port = process.env.API_PORT || 3001;
 const saltRounds = 10;
 
 // --- Database Connection ---
@@ -18,7 +18,14 @@ const pool = new Pool({
 });
 
 // --- Middleware ---
-app.use(cors());
+app.use(cors({
+  origin: [
+    'https://specnest.vercel.app',
+    /\.vercel\.app$/,
+    'http://localhost:3000',
+  ],
+  credentials: true,
+}));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 

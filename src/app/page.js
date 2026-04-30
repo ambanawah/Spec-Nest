@@ -3,11 +3,11 @@ import Header from './components/Header';
 import Footer from './components/Footer';
 import { Suspense } from 'react';
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
+const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
 
 async function getLatestProducts() {
   try {
-    const res = await fetch(`${API_URL}/api/products?limit=3&sortBy=price&sortOrder=desc`, {
+    const res = await fetch(`${API_BASE}/api/products?limit=3&sortBy=price&sortOrder=desc`, {
       next: { revalidate: 60 },
     });
     if (!res.ok) {
