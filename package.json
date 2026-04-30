@@ -11,7 +11,7 @@
     "start:backend": "node src/api/index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "db:setup": "node db/setup-db.js",
-    "start:prod": "concurrently \"node src/api/index.js\" \"next start -p ${PORT:-3000}\""
+    "start:prod": "node src/api/index.js & next start -p ${PORT:-3000}"
   },
   "keywords": [],
   "author": "",
@@ -25,7 +25,6 @@
     "jsonwebtoken": "^9.0.3",
     "next": "^15.2.0",
     "node-cron": "^4.2.1",
-    "concurrently": "^9.0.0",
     "pg": "^8.20.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
