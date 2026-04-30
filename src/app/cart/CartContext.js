@@ -10,8 +10,6 @@ export const useCart = () => useContext(CartContext);
 export const CartProvider = ({ children }) => {
   const { user, token } = useAuth(); // Use the authentication context
   const [cartItems, setCartItems] = useState([]);
-  const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
-
   useEffect(() => {
     if (user && user.id !== 'guest') {
         fetchCart();
@@ -29,7 +27,7 @@ export const CartProvider = ({ children }) => {
   const fetchCart = async () => {
     if (!token) return;
     try {
-      const response = await fetch(`${API_URL}/api/cart`, {
+      const response = await fetch(`/api/cart`, {
         headers: getAuthHeaders(),
       });
       if (response.ok) {
@@ -46,7 +44,7 @@ export const CartProvider = ({ children }) => {
   const addToCart = async (product, quantity = 1) => {
     if (user && user.id !== 'guest') {
       try {
-        await fetch(`${API_URL}/api/cart/item`, {
+        await fetch(`/api/cart/item`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json', ...getAuthHeaders() },
           body: JSON.stringify({ productId: product.id, quantity }),
@@ -72,7 +70,7 @@ export const CartProvider = ({ children }) => {
   const removeFromCart = async (productId) => {
     if (user && user.id !== 'guest') {
         try {
-            await fetch(`${API_URL}/api/cart/item/${productId}`, {
+            await fetch(`/api/cart/item/${productId}`, {
                 method: 'DELETE',
                 headers: getAuthHeaders(),
             });

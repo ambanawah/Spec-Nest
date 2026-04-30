@@ -11,7 +11,6 @@ export default function AccountPage() {
   const [formData, setFormData] = useState({ name: '', email: '', password: '' });
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
-  const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -29,7 +28,7 @@ export default function AccountPage() {
       : JSON.stringify({ username: formData.name, email: formData.email, password: formData.password, role: 'customer' });
 
     try {
-      const response = await fetch(`${API_URL}${endpoint}`, {
+      const response = await fetch(endpoint, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body,

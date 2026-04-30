@@ -1,3 +1,11 @@
 {
-  "framework": "nextjs"
+  "framework": "nextjs",
+  "env": {
+    "NEXT_PUBLIC_API_URL": "https://spec-nest-production.up.railway.app"
+  },
+  "build": {
+    "env": {
+      "NEXT_PUBLIC_API_URL": "https://spec-nest-production.up.railway.app"
+    }
+  }
 }
