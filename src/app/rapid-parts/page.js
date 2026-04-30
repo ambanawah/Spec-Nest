@@ -1,17 +1,12 @@
-'use client';
-
-import { useSearchParams } from 'next/navigation';
+'use client'
 import { useState, useEffect } from 'react';
-import Link from 'next/link';
-import Header from '../components/Header';
-import Footer from '../components/Footer';
-import ProductCard from '../components/ProductCard';
 import ComparisonTray from '../components/ComparisonTray';
+import Footer from '../components/Footer';
+import Header from '../components/Header';
+import ProductCard from '../components/ProductCard';
 import { useCart } from '../cart/CartContext';
 
-export default function SearchResultsClient() {
-  const searchParams = useSearchParams();
-  const query = searchParams.get('q') || '';
+export default function RapidPartsPage() {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const { addToCart } = useCart();
@@ -19,30 +14,26 @@ export default function SearchResultsClient() {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        // This is a mocked search. In a real application, you would
-        // fetch the search results from an API based on the query.
-        const response = await fetch(`/api/products?search=${query}`);
+        const response = await fetch('/api/products?category=Component');
         const data = await response.json();
         setProducts(data.products);
       } catch (error) {
-        console.error("Error fetching search results:", error);
+        console.error("Error fetching components:", error);
       }
       setLoading(false);
     };
 
-    if (query) {
-      fetchProducts();
-    }
-  }, [query]);
+    fetchProducts();
+  }, []);
 
   return (
     <>
-      <Header />
+      <Header activePage="rapid-parts" />
       <main className="pt-24 pb-32 min-h-screen px-4 md:px-8 max-w-[1600px] mx-auto flex flex-col md:flex-row gap-8">
         <aside className="w-full md:w-72 flex-shrink-0">
           <div className="sticky top-28 space-y-8">
           <div className="flex items-center justify-between">
-            <h2 className="font-label text-xs uppercase tracking-widest text-primary">Refine Results</h2>
+            <h2 className="font-label text-xs uppercase tracking-widest text-primary">Refine Specs</h2>
             <button className="text-[10px] uppercase font-label text-on-surface-variant hover:text-primary transition-colors">Reset All</button>
           </div>
 
@@ -55,33 +46,40 @@ export default function SearchResultsClient() {
               <div className="absolute right-1/4 top-1/2 -translate-y-1/2 w-3 h-3 bg-primary rounded-full shadow-lg cursor-pointer"></div>
             </div>
             <div className="flex justify-between font-label text-[10px] text-on-surface-variant">
-              <span>$500</span>
-              <span>$5000</span>
+              <span>$10</span>
+              <span>$1500</span>
             </div>
           </div>
 
-          {/* Category Selection */}
+          {/* Brand Selection */}
           <div className="space-y-3">
-            <label className="font-label text-xs uppercase tracking-widest text-on-surface-variant">Category</label>
+            <label className="font-label text-xs uppercase tracking-widest text-on-surface-variant">Brand</label>
             <div className="space-y-2">
               <label className="flex items-center gap-3 cursor-pointer group">
                 <div className="w-4 h-4 rounded-sm border border-outline-variant bg-surface-container-lowest flex items-center justify-center group-hover:border-primary transition-colors">
                   <span className="material-symbols-outlined text-[12px] text-primary opacity-100" style={{ fontVariationSettings: "'FILL' 1" }}>check</span>
                 </div>
-                <span className="text-sm font-body text-on-surface group-hover:text-primary">All</span>
+                <span className="text-sm font-body text-on-surface group-hover:text-primary">Intel</span>
               </label>
               <label className="flex items-center gap-3 cursor-pointer group">
                 <div className="w-4 h-4 rounded-sm border border-outline-variant bg-surface-container-lowest flex items-center justify-center group-hover:border-primary transition-colors"></div>
-                <span className="text-sm font-body text-on-surface group-hover:text-primary">Laptops</span>
+                <span className="text-sm font-body text-on-surface group-hover:text-primary">AMD</span>
               </label>
               <label className="flex items-center gap-3 cursor-pointer group">
                 <div className="w-4 h-4 rounded-sm border border-outline-variant bg-surface-container-lowest flex items-center justify-center group-hover:border-primary transition-colors"></div>
-                <span className="text-sm font-body text-on-surface group-hover:text-primary">Desktops</span>
+                <span className="text-sm font-body text-on-surface group-hover:text-primary">NVIDIA</span>
               </label>
-              <label className="flex items-center gap-3 cursor-pointer group">
-                <div className="w-4 h-4 rounded-sm border border-outline-variant bg-surface-container-lowest flex items-center justify-center group-hover:border-primary transition-colors"></div>
-                <span className="text-sm font-body text-on-surface group-hover:text-primary">Components</span>
-              </label>
+            </div>
+          </div>
+
+          {/* Component Type */}
+          <div className="space-y-3">
+            <label className="font-label text-xs uppercase tracking-widest text-on-surface-variant">Component Type</label>
+            <div className="grid grid-cols-2 gap-2">
+              <button className="bg-primary-container text-on-primary-container font-label text-[10px] py-2 rounded-sm tracking-widest uppercase">CPU</button>
+              <button className="bg-surface-container-highest text-on-surface-variant font-label text-[10px] py-2 rounded-sm tracking-widest uppercase hover:bg-surface-bright transition-colors">GPU</button>
+              <button className="bg-surface-container-highest text-on-surface-variant font-label text-[10px] py-2 rounded-sm tracking-widest uppercase hover:bg-surface-bright transition-colors">RAM</button>
+              <button className="bg-surface-container-highest text-on-surface-variant font-label text-[10px] py-2 rounded-sm tracking-widest uppercase hover:bg-surface-bright transition-colors">Motherboard</button>
             </div>
           </div>
         </div>
@@ -90,18 +88,14 @@ export default function SearchResultsClient() {
         <section className="flex-1 space-y-8">
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div>
-              <h1 className="font-headline text-3xl font-extrabold tracking-tighter text-on-surface">
-                Results for '{query}'
-              </h1>
-              <p className="text-on-surface-variant text-sm font-body">
-                Found {products.length} matching products
-              </p>
+              <h1 className="font-headline text-3xl font-extrabold tracking-tighter text-on-surface">Rapid Parts</h1>
+              <p className="text-on-surface-variant text-sm font-body">Found {products.length} essential components for your build</p>
             </div>
             <div className="flex items-center gap-4">
               <span className="font-label text-[10px] uppercase tracking-widest text-on-surface-variant">Sort By:</span>
               <select className="bg-surface-container-low border-none text-primary font-label text-[10px] uppercase tracking-widest focus:ring-0 cursor-pointer">
-                <option>Relevance</option>
                 <option>Performance Score</option>
+                <option>Featured</option>
                 <option>Price (Low-High)</option>
               </select>
             </div>
@@ -110,13 +104,21 @@ export default function SearchResultsClient() {
           {loading ? (
             <p>Loading...</p>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
               {products.map(product => (
                 <ProductCard key={product.id} product={product} onAddToCart={() => addToCart(product)} />
               ))}
             </div>
           )}
 
+          {/* Pagination */}
+          <div className="flex justify-center gap-2 pt-12">
+            <button className="w-10 h-10 flex items-center justify-center bg-surface-container-high text-on-surface hover:bg-primary-container transition-colors rounded-sm">1</button>
+            <button className="w-10 h-10 flex items-center justify-center bg-surface-container-lowest text-on-surface-variant hover:text-primary transition-colors rounded-sm">2</button>
+            <button className="w-10 h-10 flex items-center justify-center bg-surface-container-lowest text-on-surface-variant hover:text-primary transition-colors rounded-sm">3</button>
+            <span className="w-10 h-10 flex items-center justify-center text-on-surface-variant">...</span>
+            <button className="w-10 h-10 flex items-center justify-center bg-surface-container-lowest text-on-surface-variant hover:text-primary transition-colors rounded-sm">12</button>
+          </div>
         </section>
       </main>
       <ComparisonTray />

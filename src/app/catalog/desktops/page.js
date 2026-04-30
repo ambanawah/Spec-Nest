@@ -1,13 +1,35 @@
+'use client'
+import { useState, useEffect } from 'react';
 import ComparisonTray from '../../components/ComparisonTray';
 import Footer from '../../components/Footer';
 import Header from '../../components/Header';
+import ProductCard from '../../components/ProductCard';
+import { useCart } from '../../cart/CartContext';
 
 export default function DesktopsCatalogPage() {
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const { addToCart } = useCart();
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const response = await fetch('/api/products?category=Desktop');
+        const data = await response.json();
+        setProducts(data.products);
+      } catch (error) {
+        console.error("Error fetching desktops:", error);
+      }
+      setLoading(false);
+    };
+
+    fetchProducts();
+  }, []);
+
   return (
     <>
       <Header activePage="desktops" />
       <main className="pt-24 pb-32 min-h-screen px-4 md:px-8 max-w-[1600px] mx-auto flex flex-col md:flex-row gap-8">
-        {/* Sidebar Filters */}
         <aside className="w-full md:w-72 flex-shrink-0">
           <div className="sticky top-28 space-y-8">
           <div className="flex items-center justify-between">
@@ -72,240 +94,44 @@ export default function DesktopsCatalogPage() {
         </div>
       </aside>
 
-      {/* Main Product Grid */}
-      <section className="flex-1 space-y-8">
-        {/* Grid Header */}
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-          <div>
-            <h1 className="font-headline text-3xl font-extrabold tracking-tighter text-on-surface">Precision Desktops</h1>
-            <p className="text-on-surface-variant text-sm font-body">Found 38 high-performance machines matching your profile</p>
+        <section className="flex-1 space-y-8">
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <div>
+              <h1 className="font-headline text-3xl font-extrabold tracking-tighter text-on-surface">Precision Desktops</h1>
+              <p className="text-on-surface-variant text-sm font-body">Found {products.length} high-performance machines matching your profile</p>
+            </div>
+            <div className="flex items-center gap-4">
+              <span className="font-label text-[10px] uppercase tracking-widest text-on-surface-variant">Sort By:</span>
+              <select className="bg-surface-container-low border-none text-primary font-label text-[10px] uppercase tracking-widest focus:ring-0 cursor-pointer">
+                <option>Performance Score</option>
+                <option>Featured</option>
+                <option>Price (Low-High)</option>
+              </select>
+            </div>
           </div>
-          <div className="flex items-center gap-4">
-            <span className="font-label text-[10px] uppercase tracking-widest text-on-surface-variant">Sort By:</span>
-            <select className="bg-surface-container-low border-none text-primary font-label text-[10px] uppercase tracking-widest focus:ring-0 cursor-pointer">
-              <option>Performance Score</option>
-              <option>Featured</option>
-              <option>Price (Low-High)</option>
-            </select>
+
+          {loading ? (
+            <p>Loading...</p>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {products.map(product => (
+                <ProductCard key={product.id} product={product} onAddToCart={() => addToCart(product)} />
+              ))}
+            </div>
+          )}
+
+          {/* Pagination */}
+          <div className="flex justify-center gap-2 pt-12">
+            <button className="w-10 h-10 flex items-center justify-center bg-surface-container-high text-on-surface hover:bg-primary-container transition-colors rounded-sm">1</button>
+            <button className="w-10 h-10 flex items-center justify-center bg-surface-container-lowest text-on-surface-variant hover:text-primary transition-colors rounded-sm">2</button>
+            <button className="w-10 h-10 flex items-center justify-center bg-surface-container-lowest text-on-surface-variant hover:text-primary transition-colors rounded-sm">3</button>
+            <span className="w-10 h-10 flex items-center justify-center text-on-surface-variant">...</span>
+            <button className="w-10 h-10 flex items-center justify-center bg-surface-container-lowest text-on-surface-variant hover:text-primary transition-colors rounded-sm">12</button>
           </div>
-        </div>
-
-        {/* Product Items */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {/* Product Card 1 */}
-          <article className="bg-surface-container-low overflow-hidden transition-all duration-300 hover:bg-surface-container-high group flex flex-col">
-            <div className="relative h-64 overflow-hidden bg-surface-container-lowest">
-              <img
-                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                alt="high-end gaming desktop PC with RGB lighting and premium build quality on a dark desk"
-                src="https://lh3.googleusercontent.com/aida-public/AB6AXuAlimzS7zV8UOqNTEu9Bc0d-joKLh5uEPwCyPxz6vCaygKQPdEryRvB1dguOwijx2xx14UxPq85U4YDsLyqMdjregZHIUJqNZ3Wu4C22gphJtgly1l-t5z40zJQs6GrMAk4fno9NjVnCeiSALCTMrFWHrc655pm7jF72rJbt0ixrUy4EtX9NXfOPdzMIOva_BAORwKg6fXusQNgNF92V5ICIw3kRXOI0GZK4D_pVFvFIwPPMsgKlTlxJxWawYdwg-P5mAmcO45LutJn"
-              />
-              <div className="absolute top-4 left-4 flex flex-col gap-2">
-                <span className="bg-primary-container text-on-primary-container text-[10px] font-label font-bold px-2 py-1 uppercase tracking-widest rounded-sm">Elite Performance</span>
-              </div>
-              <button className="absolute top-4 right-4 w-8 h-8 rounded-full bg-black/40 backdrop-blur-md flex items-center justify-center text-on-surface hover:text-primary transition-colors">
-                <span className="material-symbols-outlined text-lg">compare_arrows</span>
-              </button>
-            </div>
-            <div className="p-6 flex-1 flex flex-col">
-              <div className="mb-4">
-                <h3 className="font-headline font-bold text-xl text-on-surface mb-1">Alienware Aurora R16</h3>
-                <p className="text-on-surface-variant text-xs font-body line-clamp-2">Next-gen architecture with advanced cooling and premium components.</p>
-              </div>
-              <div className="flex flex-wrap gap-2 mb-6">
-                <span className="bg-surface-container-highest text-on-surface text-[10px] font-label uppercase px-2 py-1 tracking-wider rounded-sm border border-outline-variant/10">RTX 4090</span>
-                <span className="bg-surface-container-highest text-on-surface text-[10px] font-label uppercase px-2 py-1 tracking-wider rounded-sm border border-outline-variant/10">i9-14900K</span>
-                <span className="bg-surface-container-highest text-on-surface text-[10px] font-label uppercase px-2 py-1 tracking-wider rounded-sm border border-outline-variant/10">64GB DDR5</span>
-              </div>
-              <div className="mt-auto flex items-center justify-between">
-                <div className="flex flex-col">
-                  <span className="text-[10px] uppercase font-label text-on-surface-variant tracking-widest">Base Spec</span>
-                  <span className="text-lg font-bold font-headline text-primary">$4,499.00</span>
-                </div>
-                <button className="bg-gradient-to-br from-[#0066ff] to-[#6001d1] text-on-primary-container px-4 py-2 rounded-md font-label text-xs uppercase tracking-widest transition-all scale-95 active:scale-90 hover:brightness-110">Configure</button>
-              </div>
-            </div>
-          </article>
-
-          {/* Product Card 2 */}
-          <article className="bg-surface-container-low overflow-hidden transition-all duration-300 hover:bg-surface-container-high group flex flex-col">
-            <div className="relative h-64 overflow-hidden bg-surface-container-lowest">
-              <img
-                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                alt="sleek workstation desktop with professional build and clean design on a modern office desk"
-                src="https://lh3.googleusercontent.com/aida-public/AB6AXuBkq_yDepZhpDOaLGISsvKIsEswz4F6GNl0Hw8_Lw6GmwqDYzmnmbrVxJx6fGQswFaQfSABeFMkTLFcuvpH6rhlnKNiA6M-vHu34IHoKQMyI2kYCxqOKtXKDqzVnioDhVJcE18AHBo4R2taAcJxvL9LmWS4-zEa8xcsdKeBunYU8BS1JYuaRd7CLs1jxFm1_TpRvU0Z2cxYgVWqbzs5W8JX8VEwegG1SduJADHgfKsKFYLf8e-N7MjiOgeccx-HYhPzHfxq_aEmtUvt"
-              />
-              <button className="absolute top-4 right-4 w-8 h-8 rounded-full bg-black/40 backdrop-blur-md flex items-center justify-center text-on-surface hover:text-primary transition-colors">
-                <span className="material-symbols-outlined text-lg">compare_arrows</span>
-              </button>
-            </div>
-            <div className="p-6 flex-1 flex flex-col">
-              <div className="mb-4">
-                <h3 className="font-headline font-bold text-xl text-on-surface mb-1">Corsair Vengeance i7200</h3>
-                <p className="text-on-surface-variant text-xs font-body line-clamp-2">Ultra-quiet operation with premium cooling and RGB customization.</p>
-              </div>
-              <div className="flex flex-wrap gap-2 mb-6">
-                <span className="bg-surface-container-highest text-on-surface text-[10px] font-label uppercase px-2 py-1 tracking-wider rounded-sm border border-outline-variant/10">RTX 4070 Ti</span>
-                <span className="bg-surface-container-highest text-on-surface text-[10px] font-label uppercase px-2 py-1 tracking-wider rounded-sm border border-outline-variant/10">Ryzen 9 7950X</span>
-                <span className="bg-surface-container-highest text-on-surface text-[10px] font-label uppercase px-2 py-1 tracking-wider rounded-sm border border-outline-variant/10">32GB DDR5</span>
-              </div>
-              <div className="mt-auto flex items-center justify-between">
-                <div className="flex flex-col">
-                  <span className="text-[10px] uppercase font-label text-on-surface-variant tracking-widest">In Stock</span>
-                  <span className="text-lg font-bold font-headline text-primary">$2,799.00</span>
-                </div>
-                <button className="bg-gradient-to-br from-[#0066ff] to-[#6001d1] text-on-primary-container px-4 py-2 rounded-md font-label text-xs uppercase tracking-widest transition-all scale-95 active:scale-90 hover:brightness-110">Configure</button>
-              </div>
-            </div>
-          </article>
-
-          {/* Product Card 3 */}
-          <article className="bg-surface-container-low overflow-hidden transition-all duration-300 hover:bg-surface-container-high group flex flex-col">
-            <div className="relative h-64 overflow-hidden bg-surface-container-lowest">
-              <img
-                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                alt="close-up of a high-performance desktop PC with advanced cooling and technical specifications displayed"
-                src="https://lh3.googleusercontent.com/aida-public/AB6AXuAP6MGvAY9DE-rK58pG1CC411wbviTXCY9bxb7smIXcrsGMGA0PCIDaxPwM7EdwkPqJWk1-X63tMrKwZg3sGYiIUviDzIMV5epRHG77VClzMpOnHSCp-rJg0_5fEhI-etyvNiJX85rLJCN_rif1qrlHOppPTYf_Z5ud7Mod9pLVrV9L085Vxs_7BLdpiH7d0VyMkcqCDbZ1WX2pdXGsJsUQF6MUWYl6kA8kWKJBmYgBNlfuZmkEg6M-f3aDwzeCAOwhJNiWMrEEgwUs"
-              />
-              <div className="absolute top-4 left-4 flex flex-col gap-2">
-                <span className="bg-secondary-container text-white text-[10px] font-label font-bold px-2 py-1 uppercase tracking-widest rounded-sm">Workstation</span>
-              </div>
-              <button className="absolute top-4 right-4 w-8 h-8 rounded-full bg-black/40 backdrop-blur-md flex items-center justify-center text-on-surface hover:text-primary transition-colors">
-                <span className="material-symbols-outlined text-lg">compare_arrows</span>
-              </button>
-            </div>
-            <div className="p-6 flex-1 flex flex-col">
-              <div className="mb-4">
-                <h3 className="font-headline font-bold text-xl text-on-surface mb-1">NZXT H9 Elite</h3>
-                <p className="text-on-surface-variant text-xs font-body line-clamp-2">Certified for professional workloads with ECC memory and workstation GPUs.</p>
-              </div>
-              <div className="flex flex-wrap gap-2 mb-6">
-                <span className="bg-surface-container-highest text-on-surface text-[10px] font-label uppercase px-2 py-1 tracking-wider rounded-sm border border-outline-variant/10">RTX A5000</span>
-                <span className="bg-surface-container-highest text-on-surface text-[10px] font-label uppercase px-2 py-1 tracking-wider rounded-sm border border-outline-variant/10">i7-13700K</span>
-                <span className="bg-surface-container-highest text-on-surface text-[10px] font-label uppercase px-2 py-1 tracking-wider rounded-sm border border-outline-variant/10">128GB ECC</span>
-              </div>
-              <div className="mt-auto flex items-center justify-between">
-                <div className="flex flex-col">
-                  <span className="text-[10px] uppercase font-label text-on-surface-variant tracking-widest">Enterprise</span>
-                  <span className="text-lg font-bold font-headline text-primary">$5,299.00</span>
-                </div>
-                <button className="bg-gradient-to-br from-[#0066ff] to-[#6001d1] text-on-primary-container px-4 py-2 rounded-md font-label text-xs uppercase tracking-widest transition-all scale-95 active:scale-90 hover:brightness-110">Configure</button>
-              </div>
-            </div>
-          </article>
-
-          {/* Product Card 4 */}
-          <article className="bg-surface-container-low overflow-hidden transition-all duration-300 hover:bg-surface-container-high group flex flex-col">
-            <div className="relative h-64 overflow-hidden bg-surface-container-lowest">
-              <img
-                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                alt="premium gaming desktop with vibrant RGB lighting and high-end components in a dark environment"
-                src="https://lh3.googleusercontent.com/aida-public/AB6AXuAOoSyFSHP3_Rh296h5TPruenYLlZB7wZ88Q-4xsEUfKrMnqLd0WhNmUjglNMrjIq6TjLXgbFo8r91ovC6UBB4wGS3-TM5vYdsKZPA0PDs1oY_0EmgfJOuZfwcZhL7Y9RBi-DFVQbn3KPxHnu69UL0O_Iv2fwXEiwJ_eqRo53rlmBW5u_cBi0ltj8RT-IBa63Mx08xZx7OOP9tmAqwfsdFdWX42hNhfoX95YkFvE_lqYgGBUfKHTwsfriQnzDroQw3__6oOzWW-p4NX"
-              />
-              <button className="absolute top-4 right-4 w-8 h-8 rounded-full bg-black/40 backdrop-blur-md flex items-center justify-center text-on-surface hover:text-primary transition-colors">
-                <span className="material-symbols-outlined text-lg">compare_arrows</span>
-              </button>
-            </div>
-            <div className="p-6 flex-1 flex flex-col">
-              <div className="mb-4">
-                <h3 className="font-headline font-bold text-xl text-on-surface mb-1">Fractal Design Define 7</h3>
-                <p className="text-on-surface-variant text-xs font-body line-clamp-2">Silent operation with superior airflow and modular design.</p>
-              </div>
-              <div className="flex flex-wrap gap-2 mb-6">
-                <span className="bg-surface-container-highest text-on-surface text-[10px] font-label uppercase px-2 py-1 tracking-wider rounded-sm border border-outline-variant/10">RTX 4080</span>
-                <span className="bg-surface-container-highest text-on-surface text-[10px] font-label uppercase px-2 py-1 tracking-wider rounded-sm border border-outline-variant/10">Ryzen 7 7800X3D</span>
-                <span className="bg-surface-container-highest text-on-surface text-[10px] font-label uppercase px-2 py-1 tracking-wider rounded-sm border border-outline-variant/10">32GB DDR5</span>
-              </div>
-              <div className="mt-auto flex items-center justify-between">
-                <div className="flex flex-col">
-                  <span className="text-[10px] uppercase font-label text-on-surface-variant tracking-widest">Special Order</span>
-                  <span className="text-lg font-bold font-headline text-primary">$3,199.00</span>
-                </div>
-                <button className="bg-gradient-to-br from-[#0066ff] to-[#6001d1] text-on-primary-container px-4 py-2 rounded-md font-label text-xs uppercase tracking-widest transition-all scale-95 active:scale-90 hover:brightness-110">Configure</button>
-              </div>
-            </div>
-          </article>
-
-          {/* Product Card 5 */}
-          <article className="bg-surface-container-low overflow-hidden transition-all duration-300 hover:bg-surface-container-high group flex flex-col">
-            <div className="relative h-64 overflow-hidden bg-surface-container-lowest">
-              <img
-                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                alt="professional workstation desktop on a clean white desk with soft natural lighting"
-                src="https://lh3.googleusercontent.com/aida-public/AB6AXuCITeIqdXUKxOMaMcAzpUjJhg187-stI1e6ElHno63sXvr7jeB2PxPm3ZWMnjHawr7SEfnMS-gFPclR4Ph92WRDzYzQ1sYv_JHn6MoBy6EGmlJnLv9hEl5vEa4iKKNMk1RzyGp-2Jy1YrYprvJHMZ9znMjRqHLCtWu8wRNDVBsVir6HZt50HeLM56s_pkhqj26GZP_87Gsx2Oc_uSOw4hPklb5ga3rgxDKL2R6B9m35diXVpSdkjju4K_8Sqq-7BqhsGdDgpZyChp85"
-              />
-              <button className="absolute top-4 right-4 w-8 h-8 rounded-full bg-black/40 backdrop-blur-md flex items-center justify-center text-on-surface hover:text-primary transition-colors">
-                <span className="material-symbols-outlined text-lg">compare_arrows</span>
-              </button>
-            </div>
-            <div className="p-6 flex-1 flex flex-col">
-              <div className="mb-4">
-                <h3 className="font-headline font-bold text-xl text-on-surface mb-1">be quiet! Dark Base 700</h3>
-                <p className="text-on-surface-variant text-xs font-body line-clamp-2">Whisper-quiet operation with premium sound dampening materials.</p>
-              </div>
-              <div className="flex flex-wrap gap-2 mb-6">
-                <span className="bg-surface-container-highest text-on-surface text-[10px] font-label uppercase px-2 py-1 tracking-wider rounded-sm border border-outline-variant/10">RTX 4060 Ti</span>
-                <span className="bg-surface-container-highest text-on-surface text-[10px] font-label uppercase px-2 py-1 tracking-wider rounded-sm border border-outline-variant/10">i5-13600K</span>
-                <span className="bg-surface-container-highest text-on-surface text-[10px] font-label uppercase px-2 py-1 tracking-wider rounded-sm border border-outline-variant/10">32GB RAM</span>
-              </div>
-              <div className="mt-auto flex items-center justify-between">
-                <div className="flex flex-col">
-                  <span className="text-[10px] uppercase font-label text-on-surface-variant tracking-widest">In Stock</span>
-                  <span className="text-lg font-bold font-headline text-primary">$1,999.00</span>
-                </div>
-                <button className="bg-gradient-to-br from-[#0066ff] to-[#6001d1] text-on-primary-container px-4 py-2 rounded-md font-label text-xs uppercase tracking-widest transition-all scale-95 active:scale-90 hover:brightness-110">Configure</button>
-              </div>
-            </div>
-          </article>
-
-          {/* Product Card 6 */}
-          <article className="bg-surface-container-low overflow-hidden transition-all duration-300 hover:bg-surface-container-high group flex flex-col">
-            <div className="relative h-64 overflow-hidden bg-surface-container-lowest">
-              <img
-                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                alt="minimalist view of a high-performance desktop PC on a dark grey surface with geometric shadows"
-                src="https://lh3.googleusercontent.com/aida-public/AB6AXuBSBJGp0fBP1hCduBD7YmN3GKasvjwGLm6ikP7lz-vgrjUVQQZiaKSmPOygAauCsPmj3qlvkMkKK_zZ2uABdNqpugZRpzMrelY4pXoahrJTgVhcFOvL04BJcQEdwJmlZBocm79Vaf01KtzfkHBXmlPfngA7ZWYGL847O2zE85Lg0b4pqaVNCQ2o43u_1mqfDxflxfENBPvSsH3BGxzKaGBxS6gldiAVrM5jO2QR0m36qX6LJmZbrKJ_6vNCiwS8-nGXGZH4fjnJHX_G"
-              />
-              <div className="absolute top-4 left-4 flex flex-col gap-2">
-                <span className="bg-surface-container-highest text-on-surface text-[10px] font-label font-bold px-2 py-1 uppercase tracking-widest rounded-sm">Value King</span>
-              </div>
-              <button className="absolute top-4 right-4 w-8 h-8 rounded-full bg-black/40 backdrop-blur-md flex items-center justify-center text-on-surface hover:text-primary transition-colors">
-                <span className="material-symbols-outlined text-lg">compare_arrows</span>
-              </button>
-            </div>
-            <div className="p-6 flex-1 flex flex-col">
-              <div className="mb-4">
-                <h3 className="font-headline font-bold text-xl text-on-surface mb-1">Cooler Master MasterBox NR600</h3>
-                <p className="text-on-surface-variant text-xs font-body line-clamp-2">Compact design with excellent airflow and cable management.</p>
-              </div>
-              <div className="flex flex-wrap gap-2 mb-6">
-                <span className="bg-surface-container-highest text-on-surface text-[10px] font-label uppercase px-2 py-1 tracking-wider rounded-sm border border-outline-variant/10">RTX 4050</span>
-                <span className="bg-surface-container-highest text-on-surface text-[10px] font-label uppercase px-2 py-1 tracking-wider rounded-sm border border-outline-variant/10">Ryzen 5 7600</span>
-                <span className="bg-surface-container-highest text-on-surface text-[10px] font-label uppercase px-2 py-1 tracking-wider rounded-sm border border-outline-variant/10">16GB DDR5</span>
-              </div>
-              <div className="mt-auto flex items-center justify-between">
-                <div className="flex flex-col">
-                  <span className="text-[10px] uppercase font-label text-on-surface-variant tracking-widest">Deal Alert</span>
-                  <span className="text-lg font-bold font-headline text-primary">$1,299.00</span>
-                </div>
-                <button className="bg-gradient-to-br from-[#0066ff] to-[#6001d1] text-on-primary-container px-4 py-2 rounded-md font-label text-xs uppercase tracking-widest transition-all scale-95 active:scale-90 hover:brightness-110">Configure</button>
-              </div>
-            </div>
-          </article>
-        </div>
-
-        {/* Pagination */}
-        <div className="flex justify-center gap-2 pt-12">
-          <button className="w-10 h-10 flex items-center justify-center bg-surface-container-high text-on-surface hover:bg-primary-container transition-colors rounded-sm">1</button>
-          <button className="w-10 h-10 flex items-center justify-center bg-surface-container-lowest text-on-surface-variant hover:text-primary transition-colors rounded-sm">2</button>
-          <button className="w-10 h-10 flex items-center justify-center bg-surface-container-lowest text-on-surface-variant hover:text-primary transition-colors rounded-sm">3</button>
-          <span className="w-10 h-10 flex items-center justify-center text-on-surface-variant">...</span>
-          <button className="w-10 h-10 flex items-center justify-center bg-surface-container-lowest text-on-surface-variant hover:text-primary transition-colors rounded-sm">12</button>
-        </div>
-      </section>
-    </main>
-    <ComparisonTray />
-    <Footer />
+        </section>
+      </main>
+      <ComparisonTray />
+      <Footer />
     </>
   );
 }
